@@ -1,0 +1,19 @@
+public class StringApp {
+    
+    public static void main(String[] args) {
+     StringLib obj = new StringLib();
+        
+        String str = "coding";
+        StringBuilder sb = new StringBuilder(str);
+        
+        sb = sb.reverse();
+        System.out.println(sb);
+        
+        obj.printReverseString(str);
+        System.out.println();
+        
+        System.out.println(obj.reverseString(str));
+        
+        obj.reverseStack(str);
+    }
+}
