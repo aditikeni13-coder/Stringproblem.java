@@ -1,0 +1,29 @@
+public class LongestSubstring {
+
+    public static int longestSubstring(String str) {
+        int maxLength = 0;
+
+        for (int i = 0; i < str.length(); i++) {
+            boolean[] visited = new boolean[256];
+
+            for (int j = i; j < str.length(); j++) {
+                char ch = str.charAt(j);
+
+                if (visited[ch]) {
+                    break;
+                }
+
+                visited[ch] = true;
+                maxLength = Math.max(maxLength, j - i + 1);
+            }
+        }
+
+        return maxLength;
+    }
+
+    public static void main(String[] args) {
+        String str = "abcabcbb";
+        System.out.println("Longest substring length without repeating characters: "
+                + longestSubstring(str));
+    }
+}
