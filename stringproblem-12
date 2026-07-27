@@ -1,0 +1,57 @@
+import java.util.HashMap;
+
+public class StringAnagram {
+
+    public static boolean findPermutation(String str, String pattern) {
+
+        HashMap<Character, Integer> map = new HashMap<>();
+
+        // Store frequency of pattern characters
+        for (char ch : pattern.toCharArray()) {
+            map.put(ch, map.getOrDefault(ch, 0) + 1);
+        }
+
+        int matched = 0;
+        int windowStart = 0;
+
+        for (int windowEnd = 0; windowEnd < str.length(); windowEnd++) {
+
+            char rightChar = str.charAt(windowEnd);
+
+            if (map.containsKey(rightChar)) {
+                map.put(rightChar, map.get(rightChar) - 1);
+
+                if (map.get(rightChar) == 0) {
+                    matched++;
+                }
+            }
+
+            if (matched == map.size()) {
+                return true;
+            }
+
+            if (windowEnd >= pattern.length() - 1) {
+
+                char leftChar = str.charAt(windowStart);
+                windowStart++;
+
+                if (map.containsKey(leftChar)) {
+                    if (map.get(leftChar) == 0) {
+                        matched--;
+                    }
+                    map.put(leftChar, map.get(leftChar) + 1);
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public static void main(String[] args) {
+
+        System.out.println(findPermutation("oidbcaf", "abc"));
+        System.out.println(findPermutation("odicf", "dc"));
+        System.out.println(findPermutation("bcdxabcdy", "bcdyabcdx"));
+        System.out.println(findPermutation("aaacb", "abc"));
+    }
+}
