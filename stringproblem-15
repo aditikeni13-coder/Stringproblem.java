@@ -1,0 +1,44 @@
+import java.util.HashMap;
+
+public class LongestRepeatingCharacterReplacement {
+
+    public static int characterReplacement(String str, int k) {
+
+        HashMap<Character, Integer> map = new HashMap<>();
+
+        int start = 0;
+        int maxRepeatLetterCount = 0;
+        int maxLength = 0;
+
+        for (int end = 0; end < str.length(); end++) {
+
+            char rightChar = str.charAt(end);
+
+            map.put(rightChar, map.getOrDefault(rightChar, 0) + 1);
+
+            maxRepeatLetterCount = Math.max(maxRepeatLetterCount,
+                    map.get(rightChar));
+
+            while ((end - start + 1 - maxRepeatLetterCount) > k) {
+
+                char leftChar = str.charAt(start);
+                map.put(leftChar, map.get(leftChar) - 1);
+                start++;
+            }
+
+            maxLength = Math.max(maxLength, end - start + 1);
+        }
+
+        return maxLength;
+    }
+
+    public static void main(String[] args) {
+
+        String str = "AABABBA";
+        int k = 1;
+
+        int result = characterReplacement(str, k);
+
+        System.out.println("Maximum Substring Length: " + result);
+    }
+}
