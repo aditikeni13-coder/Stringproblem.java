@@ -1,0 +1,69 @@
+import java.util.HashMap;
+
+public class SmallestSubstring {
+
+    public static String findSmallestSubstring(String str, String pattern) {
+
+        HashMap<Character, Integer> map = new HashMap<>();
+
+        for (char ch : pattern.toCharArray()) {
+            map.put(ch, map.getOrDefault(ch, 0) + 1);
+        }
+
+        int start = 0;
+        int matched = 0;
+        int minLength = Integer.MAX_VALUE;
+        int subStrStart = 0;
+
+        for (int end = 0; end < str.length(); end++) {
+
+            char rightChar = str.charAt(end);
+
+            if (map.containsKey(rightChar)) {
+                map.put(rightChar, map.get(rightChar) - 1);
+
+                if (map.get(rightChar) >= 0) {
+                    matched++;
+                }
+            }
+
+            while (matched == pattern.length()) {
+
+                if (minLength > end - start + 1) {
+                    minLength = end - start + 1;
+                    subStrStart = start;
+                }
+
+                char leftChar = str.charAt(start);
+                start++;
+
+                if (map.containsKey(leftChar)) {
+
+                    if (map.get(leftChar) == 0) {
+                        matched--;
+                    }
+
+                    map.put(leftChar, map.get(leftChar) + 1);
+                }
+            }
+        }
+
+        return (minLength == Integer.MAX_VALUE)
+                ? ""
+                : str.substring(subStrStart, subStrStart + minLength);
+    }
+
+    public static void main(String[] args) {
+
+        String str = "ADOBECODEBANC";
+        String pattern = "ABC";
+
+        String result = findSmallestSubstring(str, pattern);
+
+        if (result.isEmpty()) {
+            System.out.println("No substring found.");
+        } else {
+            System.out.println("Smallest Substring: " + result);
+        }
+    }
+}
