@@ -1,0 +1,30 @@
+import java.util.HashMap;
+
+public class MostFrequentWord {
+    public static void main(String[] args) {
+
+        String str = "java is easy java is powerful java";
+        String[] words = str.split("\\s+");
+
+        HashMap<String, Integer> map = new HashMap<>();
+
+        // Count frequency of each word
+        for (String word : words) {
+            map.put(word, map.getOrDefault(word, 0) + 1);
+        }
+
+        // Find the most frequent word
+        String mostFrequentWord = "";
+        int maxCount = 0;
+
+        for (String word : map.keySet()) {
+            if (map.get(word) > maxCount) {
+                maxCount = map.get(word);
+                mostFrequentWord = word;
+            }
+        }
+
+        System.out.println("Most Frequent Word: " + mostFrequentWord);
+        System.out.println("Frequency: " + maxCount);
+    }
+}
